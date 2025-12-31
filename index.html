@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>placeospace</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
+</head>
+<body>
+
+  <header class="top-header">
+    <a href="index.html" class="logo-container">
+      <img src="images/logo.png" class="icon" alt="placeospace logo">
+      <span class="logo-text">placeospace</span>
+    </a>
+
+    <div class="search-wrapper">
+      <input type="text" class="search-bar" placeholder="search placeospace" id="search-bar" oninput="performSearch()"/>
+      <span id="clear-search" style="display:none; cursor:pointer; margin-right:8px;">✕</span>
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="header-buttons">
+      <button id="login-btn">
+        <span class="main-text">login</span>
+        <span class="username"></span>
+      </button>
+
+      <div class="account-menu" id="account-menu">
+        <button class="account-btn" id="account-btn">account ▾</button>
+        <div class="dropdown" id="account-dropdown">
+          <a href="#" onclick="openAuthModal(); return false;">login / sign up</a>
+          <a href="#" onclick="showView('advertise'); return false;">advertise on placeospace</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <nav>
+        <a href="#" onclick="showView('home'); return false;">home</a>
+        <a href="#" onclick="showView('explore'); return false;">explore</a>
+        <a href="#" onclick="showView('about'); return false;">about placeospace</a>
+        <a href="#" onclick="showView('advertise'); return false;">advertise</a>
+        <a href="#" onclick="showView('blog'); return false;">blog</a>
+        <a href="#" onclick="showView('communities'); return false;">communities</a>
+        <a href="#" onclick="showView('rules'); return false;">placeospace rules</a>
+        
+        <div class="sidebar-item-container">
+          <a href="#" class="sidebar-dropdown-btn" onclick="toggleTerms(event)" style="display: flex; justify-content: space-between; align-items: center;">
+            terms & policies <i class="fa-solid fa-chevron-down" style="font-size: 0.7em;"></i>
+          </a>
+          <div id="terms-submenu" style="display: none; flex-direction: column; background: rgba(0,0,0,0.03);">
+            <a href="#" onclick="showView('privacy'); return false;" style="font-size: 0.85em; padding-left: 30px;">privacy policy</a>
+            <a href="#" onclick="showView('user-agreement'); return false;" style="font-size: 0.85em; padding-left: 30px;">user agreement</a>
+          </div>
+        </div>
+      </nav>
+      
+      <div class="footer-note" style="padding: 20px; font-size: 10px; color: #888; margin-top: auto;">
+        placeospace, © 2025. all rights reserved.
+      </div>
+    </aside>
+
+    <div class="collapse-line">
+      <button id="collapse-btn" class="collapse-btn">☰</button>
+    </div>
+
+    <main class="content" id="main-content">
+      
+      <div id="home-view" class="view">
+        <h2>welcome to placeospace</h2>
+        <p>select a section from the sidebar to begin exploring.</p>
+
+        <div class="post-creator">
+          <div class="creator-top">
+            <div class="user-avatar-small"></div>
+            <textarea id="post-input" placeholder="what's on your mind?"></textarea>
+          </div>
+          <hr class="creator-divider">
+          <div class="creator-bottom">
+            <div class="creator-options">
+              <button class="opt-btn"><i class="fa-solid fa-image"></i> photo</button>
+              <button class="opt-btn"><i class="fa-solid fa-video"></i> video</button>
+            </div>
+            <button id="publish-btn" disabled>post</button>
+          </div>
+        </div>
+
+        <div id="static-video-content">
+          <div class="video-post" style="background: white; border-radius: 12px; padding: 15px; margin-top: 20px; border: 1px solid #ddd; max-width: 500px; margin-left: auto; margin-right: auto;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <div class="user-avatar-small" style="background: #ddd; width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;"></div>
+              <strong>placeospace_user</strong>
+            </div>
+            
+            <video class="post-video" loop muted playsinline autoplay style="width: 100%; border-radius: 8px;">
+              <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+            
+            <div style="margin-top: 10px;">
+              <button class="opt-btn"><i class="fa-regular fa-heart"></i> like</button>
+              <button class="opt-btn"><i class="fa-regular fa-comment"></i> comment</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="post-feed"></div>
+
+        </div> <div id="explore-view" class="view" style="display:none;">
+        <h2>explore</h2>
+        <p>trending content and new communities will appear here.</p>
+      </div>
+
+      <div id="about-view" class="view" style="display:none;">
+        <h2>about placeospace</h2>
+        <p>learn more about our mission and the team behind the space.</p>
+      </div>
+
+      <div id="advertise-view" class="view" style="display:none;">
+        <h2>advertise</h2>
+        <p>partner with us to reach a global audience.</p>
+      </div>
+
+      <div id="blog-view" class="view" style="display:none;">
+        <h2>blog</h2>
+        <p>stay updated with the latest news and features.</p>
+      </div>
+
+      <div id="communities-view" class="view" style="display:none;">
+        <h2>communities</h2>
+        <p>find your tribe and connect with like-minded individuals.</p>
+      </div>
+
+      <div id="rules-view" class="view" style="display:none;">
+        <h2>placeospace rules</h2>
+        <p>1. be respectful. 2. no spam. 3. keep it lowercase.</p>
+      </div>
+
+      <div id="privacy-view" class="view" style="display:none;">
+        <h2>privacy policy</h2>
+        <p>how we handle and protect your data.</p>
+      </div>
+
+      <div id="user-agreement-view" class="view" style="display:none;">
+        <h2>user agreement</h2>
+        <p>the terms and conditions for using placeospace.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+      <div class="form-tabs">
+        <button id="login-tab" onclick="showLogin()" class="active">login</button>
+        <button id="signup-tab" onclick="showSignUp()">sign up</button>
+      </div>
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <input type="text" id="login-username" placeholder="username" required />
+        <input type="password" id="login-password" placeholder="password" required />
+        <button type="submit">login</button>
+      </form>
+      <form id="signup-form" style="display:none;" onsubmit="handleSignUp(event)">
+        <input type="text" id="signup-username" placeholder="username" required />
+        <input type="password" id="signup-password" placeholder="password" required />
+        <button type="submit">sign up</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

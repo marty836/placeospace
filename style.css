@@ -1,0 +1,586 @@
+/* --- 1. GLOBAL & LAYOUT --- */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  overflow: hidden; /* Prevent body scrollbar */
+}
+
+.layout {
+  display: flex;
+  height: calc(100vh - 60px); /* This gives the sidebar a fixed height to work with */
+}
+
+/* --- 2. HEADER & LOGO --- */
+.top-header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.icon {
+  height: 35px;
+  width: auto;
+  margin-right: -5px; 
+}
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #0a66c2;
+  text-transform: lowercase;
+}
+
+/* --- 3. SEARCH BAR --- */
+.search-wrapper {
+  position: relative;
+  width: 40%;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 8px 60px 8px 8px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #eaeaea;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0a66c2;
+  cursor: pointer;
+}
+
+#clear-search {
+  position: absolute;
+  right: 35px;
+  color: #999;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 5;
+  user-select: none;
+}
+
+/* --- 4. HEADER BUTTONS & ACCOUNT --- */
+.header-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+#login-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-transform: lowercase;
+}
+
+#login-btn .username {
+  font-size: 12px;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.account-btn {
+  padding: 8px 14px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  width: 180px;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.dropdown a {
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid #eee;
+  text-transform: lowercase;
+}
+
+.dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+/* --- 5. SIDEBAR (CONSOLIDATED & FIXED) --- */
+.sidebar {
+  width: 250px;
+  background-color: white;
+  border-right: 1px solid #ccc;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  position: relative;
+  transition: width 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar nav {
+  flex: 1; /* This pushes the footer down */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 14px 20px;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid #eee;
+  text-transform: lowercase;
+}
+
+.sidebar nav a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Terms Submenu Styling */
+.sidebar-item-container {
+    width: 100%;
+}
+
+#terms-submenu {
+    display: none;
+    flex-direction: column;
+    background: rgba(0,0,0,0.03);
+}
+
+#terms-submenu a {
+    border-left: 2px solid #0a66c2;
+    margin-left: 10px;
+    background: transparent !important;
+    font-size: 0.85em;
+    padding: 8px 30px !important;
+}
+
+/* The Copyright Note - Pinned to Bottom */
+.footer-note {
+  padding: 20px;
+  font-size: 10px;
+  color: #888;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  text-transform: lowercase;
+  margin-top: auto; /* The "Spring" that holds it down */
+}
+
+.sidebar.collapsed {
+  width: 0;
+  overflow: hidden;
+}
+
+/* --- 6. COLLAPSE LINE & CONTENT --- */
+.collapse-line {
+  width: 2px;
+  background-color: #eee;
+  position: relative;
+  z-index: 10;
+}
+
+.collapse-btn {
+  position: absolute;
+  top: 20px;
+  left: -16px;
+  padding: 4px 8px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* --- 7. MODALS --- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-tabs button {
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: #eee;
+  margin-right: 5px;
+  text-transform: lowercase;
+}
+
+.form-tabs button.active {
+  background-color: #0a66c2;
+  color: white;
+}
+
+form input, form textarea, form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* --- 8. POST CREATOR & CARDS --- */
+.post-creator {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.creator-top {
+  display: flex;
+  gap: 12px;
+}
+
+.user-avatar-small {
+  width: 40px;
+  height: 40px;
+  background-color: #ddd;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.post-creator textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  padding-top: 8px;
+  font-family: inherit;
+}
+
+.creator-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 12px 0;
+}
+
+.creator-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.creator-options {
+  display: flex;
+  gap: 10px;
+}
+
+.opt-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: lowercase;
+}
+
+#publish-btn {
+  background-color: #0a66c2;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.5;
+  text-transform: lowercase;
+}
+
+#publish-btn.enabled {
+  opacity: 1;
+}
+
+.post-card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  gap: 10px;
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-username {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.post-time {
+  font-size: 12px;
+  color: gray;
+}
+
+.post-body {
+  padding: 0 15px 15px 15px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #222;
+}
+
+.post-actions {
+  display: flex;
+  border-top: 1px solid #eee;
+  padding: 5px 10px;
+}
+
+.action-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: lowercase;
+}
+
+/* --- 9. ANIMATIONS & COMMENT SCROLLING --- */
+.action-btn.liked {
+    color: #e0245e;
+}
+
+@keyframes heartPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1.2); }
+}
+
+.action-btn.liked i {
+    animation: heartPop 0.2s ease-in-out;
+}
+
+/* Updated Scrolling Comment Area */
+.comment-list {
+    max-height: 200px; /* Limits height before scrolling */
+    overflow-y: auto;  /* Enables scrollbar */
+    padding-right: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat Bubble Styling */
+.comment-bubble {
+    background: #f0f2f5;
+    padding: 8px 15px;
+    border-radius: 18px;
+    margin-bottom: 5px !important;
+    width: fit-content;
+    max-width: 85%;
+    font-size: 14px;
+    color: #050505;
+    word-wrap: break-word;
+}
+
+.comment-bubble b {
+    color: #0a66c2;
+    font-size: 12px;
+    display: block;
+}
+
+/* --- 10. MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 66vw !important;
+    height: calc(100vh - 60px);
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .collapse-btn {
+    position: fixed;
+    top: 65px;
+    left: 15px;
+    z-index: 1100;
+  }
+  
+  .search-wrapper {
+    position: absolute;
+    right: 150px; 
+    width: auto;
+  }
+
+  .search-bar {
+    width: 0;
+    padding: 0;
+    border: none;
+    opacity: 0;
+  }
+
+  .search-wrapper.active .search-bar {
+    width: 120px; 
+    margin-left: -130px; 
+    padding: 8px 35px 8px 10px;
+    opacity: 1;
+    border: 1px solid #ccc;
+    background: white;
+  }
+}
+
+.header-buttons {
+    gap: 10px;
+    margin-right: 3px;
+}
+
+#login-btn {
+    padding-right: 0px;
+}
+  
+.action-btn.like-btn.liked i, 
+.action-btn.like-btn.liked {
+    color: #ff4444 !important; 
+}
+
+.action-btn.like-btn.liked i {
+    font-weight: 900 !important;
+}
+
+.liked i {
+    transform: scale(1.2);
+    transition: transform 0.1s ease;
+}
+
+.post-video {
+    display: block !important;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    border: 2px solid #444;
+}
+
+/* Replace the deleted lines with these clean rules */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Stops the outer scrollbar */
+}
+
+.layout {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjusts for the header */
+  overflow: hidden; 
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto; /* This is the ONLY scrollbar we want */
+  height: 100%;
+  padding: 20px;
+}
+
+.view {
+  display: none; /* Everything starts hidden */
+  width: 100%;
+}
+
+#post-feed {
+    padding-bottom: 80px; /* This creates "breathing room" at the bottom */
+}
+
+.content {
+    /* Ensure the content doesn't cut off */
+    display: flex;
+    flex-direction: column;
+}
